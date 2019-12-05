@@ -1,4 +1,10 @@
 {
   "plugins": ["@babel/proposal-class-properties"],
-  "presets": ["@babel/react", ["@babel/env", { "modules": false }]]
+  "presets": [["@babel/env", { "modules": false }]],
+
+  "env": {
+    "test": {
+      "presets": ["@babel/react", ["@babel/env", { "modules": "commonjs" }]]
+    }
+  }
 }
