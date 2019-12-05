@@ -1,0 +1,78 @@
+{
+  "name": "run-seq",
+  "version": "1.0.0",
+  "main": "dist/index.cjs.js",
+  "description": "run a series of tasks with next controller",
+  "author": "imcuttle <moyuyc95@gmail.com>",
+  "scripts": {
+    "test": "jest",
+    "prepublishOnly": "npm test",
+    "test-ci": "npm run clean && npm test",
+    "prepare": "npm run build",
+    "clean": "rimraf dist",
+    "build": "npm run clean && rollup -c",
+    "dev": "npm run build -- -w",
+    "doc": "documentation --github --markdown-toc=false readme index.js -a public -s \"API\" && git add README.md",
+    "version": "npm run doc && npm run changelog",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=8"
+  },
+  "keywords": [
+    "imcuttle",
+    "run",
+    "seq",
+    "run-seq"
+  ],
+  "typings": "index.d.ts",
+  "license": "MIT",
+  "repository": "imcuttle/run-seq",
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/__tests__/setup.js"
+    ],
+    "testMatch": [
+      "**/__test{s,}__/*.(spec|test).{t,j}s{x,}"
+    ]
+  },
+  "module": "index.js",
+  "browser": "dist/index.umd.js",
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-react": "^7.7.4",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@types/jest": "^24.0.23",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "conventional-changelog-cli": "^2.0.28",
+    "documentation": "^12.1.4",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
+    "husky": "^3.1.0",
+    "immutable": "^4.0.0-rc.12",
+    "jest": "^24.9.0",
+    "mobx": "^4.15.0",
+    "mobx-react": "^5.4.4",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.27.8",
+    "shallowequal": "^1.1.0"
+  }
+}
