@@ -3,8 +3,8 @@
  * @author imcuttle
  */
 
-declare namespace runSeq {}
+type SeqFunc = (tasks: Function[], args?: [], thisArg?: any) => any
+declare let $: SeqFunc
 
-declare const runSeq: {}
-
-export = runSeq
+export default $
+export const noPassing: SeqFunc
