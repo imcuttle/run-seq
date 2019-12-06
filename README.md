@@ -8,6 +8,8 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg?style=flat-square)](https://conventionalcommits.org)
 
 > run a series of tasks with next controller
+>
+> It's useful for splitting multiple related tasks.
 
 ## Installation
 
@@ -20,10 +22,77 @@ yarn add run-seq
 ## Usage
 
 ```javascript
-const runSeq = require('run-seq')
-```
+import runSeq from 'run-seq'
+const tree = {
+  tagName: 'p',
+  nodes: [
+    {
+      tagName: 'img',
+      data: {
+        src: './img.png'
+      }
+    },
+    {
+      tagName: 'text',
+      text: 'lalalala'
+    },
+    {
+      tagName: 'p',
+      nodes: [
+        {
+          tagName: 'img',
+          data: {
+            src: './img.png'
+          }
+        },
+        {
+          tagName: 'text',
+          text: 'lalalala'
+        }
+      ]
+    }
+  ]
+}
 
-## API
+const html = runSeq(
+  [
+    // 0
+    (node, next) => {
+      if (!node) return ''
+      if (!Array.isArray(node)) {
+        node = [node]
+      }
+
+      return node.map(node => next(node)).join('\n')
+    },
+    // 1
+    (node, next) => {
+      switch (node.tagName) {
+        case 'img':
+          return `<img src="${node.data.src}"/>`
+        case 'p':
+          // `next.all` is processing the all sequence (0-3)
+          return `<p>${next.all(node.nodes)}</p>`
+      }
+      // `next` is processing the next task (2)
+      return next(node)
+    },
+    // 2
+    (node, next) => {
+      switch (node.tagName) {
+        case 'text':
+          return node.text
+      }
+      return next(node)
+    },
+    // 3
+    node => ''
+  ],
+  [tree]
+)
+
+html // => <p><img src="./img.png"><span>lalalala</span><p><img src="./img.png"><span>lalalala</span></p></p>
+```
 
 ## Contributing
 

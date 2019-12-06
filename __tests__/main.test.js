@@ -1,5 +1,5 @@
-const runSeq = require('..').default
-const { noPassing } = require('..')
+const runSeq = require('../index').default
+const { waterFall } = require('..')
 
 describe('run-seq', function() {
   it('should spec works well', function() {
@@ -44,7 +44,7 @@ describe('run-seq', function() {
     expect(tasks[1]).toHaveBeenCalledTimes(1)
   })
 
-  it('should spec noPassing works `next` well', function() {
+  it('should spec waterFall works `next` well', function() {
     const tasks = [
       jest.fn((obj, next) => {
         return next({
@@ -58,7 +58,7 @@ describe('run-seq', function() {
         return v
       })
     ]
-    expect(noPassing(tasks, [{ name: 'imcuttle' }])).toMatchInlineSnapshot(`
+    expect(waterFall(tasks, [{ name: 'imcuttle' }])).toMatchInlineSnapshot(`
             Object {
               "name": "imcuttle",
             }
@@ -85,13 +85,14 @@ describe('run-seq', function() {
           case 'p':
             return `<p>${next.all(node.nodes)}</p>`
         }
+        return next(node)
       },
       (node, next) => {
         switch (node.tagName) {
           case 'text':
             return node.text
         }
-        return next.all(node)
+        return next(node)
       }
     ]
     expect(
@@ -128,10 +129,10 @@ describe('run-seq', function() {
         }
       ])
     ).toMatchInlineSnapshot(`
-            "<p><img src=\\"./img.png\\"/>
-
-            <p><img src=\\"./img.png\\"/>
-            </p></p>"
-        `)
+      "<p><img src=\\"./img.png\\"/>
+      lalalala
+      <p><img src=\\"./img.png\\"/>
+      lalalala</p></p>"
+    `)
   })
 })

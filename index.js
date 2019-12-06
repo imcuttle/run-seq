@@ -5,9 +5,9 @@
 export default function runSeq(tasks, argvs = [], thisArg) {
   const tasksCloned = tasks.slice()
 
-  function next(fn, ...passedArgvs) {
+  function next(fn, tasksCloned, ...passedArgvs) {
     if (fn) {
-      const innerNext = next.bind(null, tasksCloned.shift())
+      const innerNext = next.bind(null, tasksCloned[0], tasksCloned.slice(1))
       innerNext.all = function(...passedArgvs) {
         return runSeq.apply(this, [tasks, passedArgvs, thisArg])
       }
@@ -15,20 +15,17 @@ export default function runSeq(tasks, argvs = [], thisArg) {
     }
   }
 
-  return next.apply(thisArg, [tasksCloned.shift()].concat(argvs))
+  return next.apply(thisArg, [tasksCloned[0], tasksCloned.slice(1)].concat(argvs))
 }
 
-export function noPassing(list, ...argv) {
+export function waterFall(list, ...argv) {
   return runSeq(
     list.map(fn => {
       return function(...argv) {
         const argvs = argv.slice(0, -1)
         const next = argv[argvs.length]
 
-        return fn.apply(
-          this,
-          argvs.concat(() => next(...argvs))
-        )
+        return fn.apply(this, argvs.concat(Object.assign(() => next(...argvs), next)))
       }
     }),
     ...argv

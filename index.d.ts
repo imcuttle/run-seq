@@ -7,4 +7,4 @@ type SeqFunc = (tasks: Function[], args?: [], thisArg?: any) => any
 declare let $: SeqFunc
 
 export default $
-export const noPassing: SeqFunc
+export const waterFall: SeqFunc
