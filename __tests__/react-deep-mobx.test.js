@@ -92,7 +92,7 @@ describe('react-deep-mobx', function() {
             case 'p':
               return <p>{next.all(node.nodes)}</p>
             default:
-              return next()
+              return next(node)
           }
         },
         (node, next) => {
@@ -106,7 +106,9 @@ describe('react-deep-mobx', function() {
     })
 
     const wrapper = mount(elem)
-    expect(wrapper.html()).toMatchInlineSnapshot(`"<p><img src=\\"./img.png\\"><p><img src=\\"./img.png\\"></p></p>"`)
+    expect(wrapper.html()).toMatchInlineSnapshot(
+      `"<p><img src=\\"./img.png\\"><span>lalalala</span><p><img src=\\"./img.png\\"><span>lalalala</span></p></p>"`
+    )
 
     // state.updateIn()
     state.nodes[2].nodes[0].data.src = './updated.png'
@@ -114,7 +116,7 @@ describe('react-deep-mobx', function() {
     // state: newState
     // })
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<p><img src=\\"./img.png\\"><p><img src=\\"./updated.png\\"></p></p>"`
+      `"<p><img src=\\"./img.png\\"><span>lalalala</span><p><img src=\\"./updated.png\\"><span>lalalala</span></p></p>"`
     )
   })
 })
