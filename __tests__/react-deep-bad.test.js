@@ -3,17 +3,7 @@ const React = require('react')
 const shallowEqual = require('shallowequal')
 const { Map, fromJS, List } = require('immutable')
 const { mount } = require('enzyme')
-const { transformReactElement, tree, transformers } = require('./helper')
-
-class Node extends React.Component {
-  shouldComponentUpdate(newProps, newState) {
-    return !this.props.node.equals(newProps.node)
-  }
-  render() {
-    console.log(this.props.node.toJS())
-    return this.props.render() || null
-  }
-}
+const { transformers, tree, transformReactElement } = require('./helper')
 
 class ReactDeep extends React.Component {
   static defaultProps = {
@@ -22,11 +12,8 @@ class ReactDeep extends React.Component {
 
   get transformers() {
     return [
-      (node, ctx, next) => {
-        return <Node node={node} render={() => next()} />
-      },
       ...this.props.transformers,
-      (node, next) => {
+      (node, ctx, next) => {
         return ''
       }
     ]
@@ -38,7 +25,7 @@ class ReactDeep extends React.Component {
   }
 }
 
-describe('react-deep', function() {
+describe('react-deep-bad', function() {
   it('should spec works `next.all` well', function() {
     const state = fromJS(tree)
 

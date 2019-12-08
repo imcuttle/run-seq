@@ -6,7 +6,7 @@ export default function runSeq(tasks, argvs = [], thisArg) {
   const tasksCloned = tasks.slice()
 
   function next(fn, tasksCloned, ...passedArgvs) {
-    if (fn) {
+    if (typeof fn === 'function') {
       const innerNext = next.bind(null, tasksCloned[0], tasksCloned.slice(1))
       innerNext.all = function(...passedArgvs) {
         return runSeq.apply(this, [tasks, passedArgvs, thisArg])

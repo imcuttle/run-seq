@@ -3,6 +3,7 @@ const React = require('react')
 const mobx = require('mobx')
 const { observer, Observer } = require('mobx-react')
 const { mount } = require('enzyme')
+const { transformReactElement, tree } = require('./helper')
 
 class Node extends React.Component {
   render() {
@@ -51,36 +52,7 @@ class ReactDeep extends React.Component {
 
 describe('react-deep-mobx', function() {
   it('should spec works `next.all` well', function() {
-    const state = mobx.observable.object({
-      tagName: 'p',
-      nodes: [
-        {
-          tagName: 'img',
-          data: {
-            src: './img.png'
-          }
-        },
-        {
-          tagName: 'text',
-          text: 'lalalala'
-        },
-        {
-          tagName: 'p',
-          nodes: [
-            {
-              tagName: 'img',
-              data: {
-                src: './img.png'
-              }
-            },
-            {
-              tagName: 'text',
-              text: 'lalalala'
-            }
-          ]
-        }
-      ]
-    })
+    const state = mobx.observable.object(tree)
 
     const elem = React.createElement(ReactDeep, {
       state: state,
