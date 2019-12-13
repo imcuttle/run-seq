@@ -6,6 +6,7 @@
   "author": "imcuttle <moyuyc95@gmail.com>",
   "scripts": {
     "test": "jest",
+    "run:test": "npx babel-node new-workspace/test.js --env-name=test",
     "prepublishOnly": "npm test",
     "test-ci": "npm run clean && npm test",
     "prepare": "npm run build",
@@ -52,6 +53,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/node": "^7.7.4",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
@@ -67,6 +70,7 @@
     "husky": "^3.1.0",
     "immutable": "^4.0.0-rc.12",
     "jest": "^24.9.0",
+    "jsdom": "^15.2.1",
     "mobx": "^4.15.0",
     "mobx-react": "^5.4.4",
     "prettier": "^1.19.1",
