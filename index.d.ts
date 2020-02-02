@@ -3,7 +3,7 @@
  * @author imcuttle
  */
 
-type SeqFunc = (tasks: Function[], args?: [], thisArg?: any) => any
+type SeqFunc = (tasks: Function[], args?: any[], thisArg?: any) => any
 declare let $: SeqFunc
 
 export default $
