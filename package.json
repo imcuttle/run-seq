@@ -1,6 +1,6 @@
 {
   "name": "run-seq",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.cjs.js",
   "description": "run a series of tasks with next controller",
   "author": "imcuttle <moyuyc95@gmail.com>",
